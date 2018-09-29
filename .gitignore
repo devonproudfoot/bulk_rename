@@ -1,2 +1,8 @@
 #Ignore CSV files
 *.csv
+
+Thumbs.db
+ehthumbs.db
+.DS_Store
+.AppleDouble
+.LSOverride
