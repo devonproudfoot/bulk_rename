@@ -4,10 +4,13 @@ def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('filepath', help='Enter the path to the files to be renamed')
     parser.add_argument('filetype', help='Enter the filetype, currently only allows for tif or jpg')
+    parser.add_argument('identifier', help='Enter the unique identifier that you would like to start')
     args = parser.parse_args()
     filepath = args.filepath.strip()
     filetype = args.filetype.strip()
-    return filepath, filetype
+    identifier = args.filetype.strip()
+    id = int(identifier)
+    return filepath, filetype, id
 
 def get_checksum(path):
     hash_md5 = hashlib.md5()
@@ -22,7 +25,7 @@ def logging_csv(header, data_entries, csv_file):
         writer.writeheader()
         writer.writerows(data_entries)
 
-directory, file_question = get_args()
+directory, file_question, two_millions = get_args()
 
 if 'tif' in file_question:
     file_type = '.tif'
@@ -34,8 +37,6 @@ else:
 
 header = ['old_filename', 'old_checksum', 'old_file_size', 'new_filename', 'new_checksum', 'new_file_size', 'valid?']
 rows = []
-
-two_millions = 20070000
 
 for old_filename in os.listdir(directory):
     if old_filename.endswith(file_type):

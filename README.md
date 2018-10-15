@@ -7,11 +7,11 @@ _It is recommended that you test the scripts on copies of the files._
 ### Step 1
 ##### [bulk_rename.py](https://github.com/devonproudfoot/bulk_rename/blob/master/bulk_rename.py)
 
-The first script requires two arguments, the path to the folder with the files to be renamed, as well as the type of files.
+The first script requires three arguments, the path to the folder with the files to be renamed, type of files, as well as the identifier that you would like to start from.
 
 Ex.
 ```
-python3 bulk_rename.py 'Desktop/projects/folder_with_jpgs' jpg
+python3 bulk_rename.py 'Desktop/projects/folder_with_jpgs' jpg 20070000
 ```
 
 After running the script, a spreadsheet will be created in the folder that the script is located.  The spreadsheet will have the original filenames, as well as the new filenames.  It also includes the checksums and file sizes to ensure that the renamed file has not been altered beyond the filename (hopefully this is implemented correctly!) If 'ERROR' is found anywhere in the 'valid?' column, an issue has occurred. Do not delete this file, it is needed for the second script!
@@ -19,7 +19,7 @@ After running the script, a spreadsheet will be created in the folder that the s
 ### Step 2
 ##### [rename_from_spreadsheet.py](https://github.com/devonproudfoot/bulk_rename/blob/master/rename_from_spreadsheet.py)
 
-The second script also requires two arguments, the path to the folder with the files to be renamed, as well as the type of files.
+The second script requires only two arguments, the path to the folder with the files to be renamed, as well as the type of files.
 
 Ex.
 ```
