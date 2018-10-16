@@ -8,7 +8,7 @@ def get_args():
     args = parser.parse_args()
     filepath = args.filepath.strip()
     filetype = args.filetype.strip()
-    identifier = args.filetype.strip()
+    identifier = args.identifier.strip()
     id = int(identifier)
     return filepath, filetype, id
 
