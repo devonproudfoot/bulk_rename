@@ -40,7 +40,11 @@ for old_filename in os.listdir(directory):
         new_filename = str(files.identifier) + file_extension
         new_path = os.path.join(directory, new_filename)
         shutil.move(old_path, new_path)
-        dictionary_changes = {'old_filename' : old_filename, 'new_filename' : new_filename, 'filepath' : directory}
+        dictionary_changes = {
+            'old_filename' : old_filename,
+            'new_filename' : new_filename,
+            'filepath' : directory
+        }
         files_changed.append(dictionary_changes)
         files.identifier += 1
 
