@@ -3,7 +3,7 @@ import os, shutil, csv, sys, argparse
 class file_info:
     hidden_files = ['Thumbs.db', 'ehthumbs.db', '.DS_Store', '.AppleDouble', '.LSOverride']
     file_metadata = ['old_filename', 'new_filename', 'filepath']
-    filetypes = ['.png', '.tif', '.jpg', '.doc', '.docx', '.pdf']
+    filetypes = ['.png', '.tif', '.jpg', '.doc', '.docx', '.pdf', '.csv']
     filepath = ''
     identifier = 1
     logging_csv = 'updated_filenames.csv'
@@ -11,10 +11,10 @@ class file_info:
     def get_args(self):
         parser = argparse.ArgumentParser()
         parser.add_argument('filepath', help='Drag the path to the folder.  Is not recursive!')
-        parser.add_argument('identifier', help='Enter the identifier that you would like to start with.  Only works with numbers.')
+        parser.add_argument('identifier', type=int, help='Enter the identifier that you would like to start with.  Only works with numbers.')
         args = parser.parse_args()
         self.filepath = args.filepath
-        self.identifier = int(args.identifier)
+        self.identifier = args.identifier
 
     def create_logging_csv(self, renamed_files):
         with open(self.logging_csv, 'w') as csv_file:
@@ -29,8 +29,7 @@ class file_info:
 
 files = file_info()
 files.get_args()
-directory = files.filepath
-id = files.identifier
+directory = os.path.join('to_change', files.filepath)
 files_changed = []
 
 for old_filename in os.listdir(directory):
