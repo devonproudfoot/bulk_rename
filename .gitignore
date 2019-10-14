@@ -1,6 +1,7 @@
 #Ignore CSV files
 *.csv
 *.txt
+identifiers.py
 
 Thumbs.db
 ehthumbs.db
