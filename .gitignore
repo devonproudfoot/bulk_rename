@@ -10,3 +10,4 @@ ehthumbs.db
 .LSOverride
 
 to_change/*
+__pycache__/*
