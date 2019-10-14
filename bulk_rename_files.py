@@ -1,4 +1,5 @@
 import os, shutil, csv, sys, argparse
+from datetime import datetime
 
 class file_info:
     hidden_files = ['Thumbs.db', 'ehthumbs.db', '.DS_Store', '.AppleDouble', '.LSOverride']
@@ -8,7 +9,9 @@ class file_info:
     identifier = 1
 
     def create_logging_csv(self, renamed_files):
-        with open('updated_filenames.csv', 'w') as csv_file:
+        date = datetime.now().strftime("%Y%m%d%H%M%S")
+        csv_name = 'updated_filenames_test_' + date + '.csv'
+        with open(csv_name, 'w') as csv_file:
             writer = csv.DictWriter(csv_file, fieldnames=self.file_metadata)
             writer.writeheader()
             writer.writerows(renamed_files)
@@ -18,26 +21,29 @@ class file_info:
             if file.endswith(filetype):
                 return filetype
 
-    def prompt_for_choice():
+    def prompt_for_choice(self):
         selection = input('Enter 1 for ')
 
 files = file_info()
 files_changed = []
+directory = 'to_change'
 
-for folder in os.listdir('to_change'):
-    for old_filename in os.listdir(folder):
-        if old_filename not in files.hidden_files:
-            old_path = os.path.join(directory, old_filename)
-            file_extension = files.check_filetype(old_filename)
-            new_filename = str(files.identifier) + file_extension
-            new_path = os.path.join(directory, new_filename)
-            shutil.move(old_path, new_path)
-            dictionary_changes = {
-                'old_filename' : old_filename,
-                'new_filename' : new_filename,
-                'filepath' : directory
-            }
-            files_changed.append(dictionary_changes)
-            files.identifier += 1
+for folder in os.listdir(directory):
+    if folder not in files.hidden_files:
+        folder_path = os.path.join(directory, folder)
+        for old_filename in os.listdir(folder_path):
+            if old_filename not in files.hidden_files:
+                old_path = os.path.join(folder_path, old_filename)
+                file_extension = files.check_filetype(old_filename)
+                new_filename = str(files.identifier) + file_extension
+                new_path = os.path.join(folder_path, new_filename)
+                shutil.move(old_path, new_path)
+                dictionary_changes = {
+                    'old_filename' : old_filename,
+                    'new_filename' : new_filename,
+                    'filepath' : folder
+                }
+                files_changed.append(dictionary_changes)
+                files.identifier += 1
 
 files.create_logging_csv(files_changed)
