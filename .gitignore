@@ -9,5 +9,4 @@ ehthumbs.db
 .AppleDouble
 .LSOverride
 
-to_change/*
-__pycache__/*
+/*

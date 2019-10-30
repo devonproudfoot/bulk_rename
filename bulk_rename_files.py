@@ -23,7 +23,7 @@ class file_info:
     def logging_csv_to_dictionary(self, spreadsheet_file):
         new_dictionary = []
         with open(spreadsheet_file) as spreadsheet:
-            return True
+            csvreader = csv.DictReader(spreadsheet)
 
     def prompt_for_choice(self):
         selection = input('Enter 1 if you are renaming new files, or 2 if you are renaming from a spreadsheet: ')
@@ -64,27 +64,23 @@ if choice == 1:
 elif choice == 2:
     files_to_change_path = 'change_from_csv'
     csv_for_renaming = 'for_renaming.csv'
-    with open(csv_for_renaming) as csv:
-        csv_reader = csv.DictReader(csv)
-        for row in csv_reader:
-            new_filename = row['new_filename'].replace('.tif', '.jpg')
-            old_filename = row['old_filename'].replace('.tif', '.jpg')
-            full_old_filepath = os.path.join(files_to_change_path, row['path'], old_filename)
-            full_new_filepath = os.path.join(files_to_change_path, row['path'], new_filename)
-            if os.path.exists(full_old_filepath):
-                shutil.move(full_old_filepath, full_new_filepath)
-                dictionary_changes = {
-                    'old_filename' : old_filename,
-                    'new_filename' : new_filename,
-                    'filepath' : row['path']
-                }
-                files_changed.append(dictionary_changes)
-            else:
-                dictionary_changes = {
-                    'old_filename' : old_filename,
-                    'new_filename' : 'ALERT: File does not exist',
-                    'filepath' : row['path']
-                }
-                files_changed.append(dictionary_changes)
-
+    for folder in os.listdir(files_to_change_path):
+        if folder not in files.hidden_files:
+            folderpath = os.path.join(files_to_change_path, folder)
+            with open(csv_for_renaming) as csv_filenames:
+                csv_reader = csv.DictReader(csv_filenames)
+                for row in csv_reader:
+                    new_filename = row['new_filename'].replace('.tif', '.jpg')
+                    old_filename = row['old_filename'].replace('.tif', '.jpg')
+                    full_old_filepath = os.path.join(folderpath, old_filename)
+                    full_new_filepath = os.path.join(folderpath, new_filename)
+                    if os.path.exists(full_old_filepath):
+                        shutil.move(full_old_filepath, full_new_filepath)
+                        dictionary_changes = {
+                            'old_filename' : old_filename,
+                            'new_filename' : new_filename,
+                            'filepath' : row['filepath']
+                        }
+                        files_changed.append(dictionary_changes)
+            
     files.create_logging_csv(files_changed)
