@@ -82,5 +82,6 @@ elif choice == 2:
                             'filepath' : row['filepath']
                         }
                         files_changed.append(dictionary_changes)
+        print("Completed {}".format(folder))
             
     files.create_logging_csv(files_changed)
